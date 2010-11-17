@@ -1,3 +1,4 @@
+
 var days = 30;
 var coat = 0;
 var coatSize = 100;
