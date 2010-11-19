@@ -71,7 +71,10 @@ function listCoat(){
 }
 
 function getDrugPrice(city){
-	document.getElementById("Acid").innerHTML="Acid ";
+	amount = 20;//random numbers
+	price = 10;
+
+	document.getElementById("Acid").innerHTML="Acid ("+amount+"): $"+price;
 	document.getElementById("Cocaine").innerHTML="Cocaine ";
 	document.getElementById("E").innerHTML="Ecstasy ";
 	document.getElementById("Heroin").innerHTML="Heroin ";
@@ -92,8 +95,6 @@ function init(){
 	loadItem();
 	getDrugPrice("g");
 }
-
-
 
 function updateInfo(){
 	document.getElementById("Days").innerHTML="Days: " + days;
