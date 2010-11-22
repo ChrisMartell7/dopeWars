@@ -44,6 +44,16 @@ var weedCurrent = 0;
 var coatInfo;
 var itemInfo;
 
+function acid(){
+	var min = acidMin;
+	var max = acidMax;
+	if(currentLoc == "Bronx"){
+		min = min /2;
+	}else if (currentLoc === "Coney Island"){
+		max = max * 2;
+	}
+}
+
 function loadItem(){
 	itemInfo[0] = "Acid ";
 	itemInfo[1] = "Cocaine ";
@@ -112,7 +122,12 @@ function travel(newLocation){
 	currentLoc = newLocation;
 	days -= 1;
 	debt = Math.floor(debt*(100+interestRate)/100);
-	updateInfo();
+	if(days == -1){
+	//	document.print("<meta http-equiv=\"refresh\" content =\"\" url='highscore.php'");
+		window.location="highscore.php"	
+	}else{
+		updateInfo();
+	}
 }
 
 function buyStuff(item, price, quantity){
