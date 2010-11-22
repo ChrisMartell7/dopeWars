@@ -84,7 +84,7 @@ function getDrugPrice(city){
 	amount = 20;//random numbers
 	price = 10;
 
-	document.getElementById("Acid").innerHTML="Acid ("+amount+"): $"+price;
+	document.getElementById("Acid").innerHTML="Acid $"+price + "<input type=\"text\" name=\"acid\" size= \"3\" />";
 	document.getElementById("Cocaine").innerHTML="Cocaine ";
 	document.getElementById("E").innerHTML="Ecstasy ";
 	document.getElementById("Heroin").innerHTML="Heroin ";
