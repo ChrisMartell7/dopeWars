@@ -40,6 +40,8 @@ var shroomsCurrent = 0;
 var speedCurrent = 0;
 var weedCurrent = 0;
 
+var newsFeed;
+
 //will hold current coat. order is same as above (alphabetical)
 var coatInfo;
 var itemInfo;
@@ -59,13 +61,14 @@ function acid()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	acidCurrent = Math.round(rand);
+	return acidCurrent;
 }
 
 function cocaine()
 {
         var min = cocaineMin;
-        var max = concaineMax;
+        var max = cocaineMax;
         if(currentLoc == "Brooklyn")
 	{
 		max = min;
@@ -77,7 +80,8 @@ function cocaine()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	cocaineCurrent =  Math.round(rand);
+	return cocaineCurrent;
 }
 
 function e()
@@ -95,7 +99,8 @@ function e()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	eCurrent =  Math.round(rand);
+	return eCurrent;
 }
 
 function heroin()
@@ -113,7 +118,8 @@ function heroin()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	heroinCurrent = Math.round(rand);
+	return heroinCurrent;
 }
 
 function pcp()
@@ -126,7 +132,8 @@ function pcp()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	pcpCurrent = Math.round(rand);
+	return pcpCurrent;
 }
 
 function shrooms()
@@ -139,7 +146,8 @@ function shrooms()
                 min = min /2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	shroomsCurrent = Math.round(rand);
+	return shroomsCurrent;
 }
 
 function speed()
@@ -157,7 +165,8 @@ function speed()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	speedCurrent = Math.round(rand);
+	return speedCurrent;
 }
 
 function weed()
@@ -175,8 +184,10 @@ function weed()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	return Math.round(rand);
+	weedCurrent =  Math.round(rand);
+	return weedCurrent;
 }
+
 
 function loadItem(){
 	itemInfo[0] = "Acid ";
@@ -204,18 +215,18 @@ function listCoat(){
 	}
 }
 
-function getDrugPrice(city){
+function getDrugPrice(){
 	amount = 20;//random numbers
 	price = 10;
 
 	document.getElementById("Acid").innerHTML="Acid $"+acid() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Cocaine").innerHTML="Cocaine $"+cocaine() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("E").innerHTML="Ecstasy "+e() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Heroin").innerHTML="Heroin "+heroin() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("PCP").innerHTML="PCP "+pcp() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Shrooms").innerHTML="Shrooms "+shrooms() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Speed").innerHTML="Speed "+speed() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Weed").innerHTML="Weed "+weed() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("Cocaine").innerHTML="Cocaine $"+cocaine() + "<input type=\"text\" name=\"cocaine\" size= \"3\" />";
+	document.getElementById("E").innerHTML="Ecstasy $"+e() + "<input type=\"text\" name=\"e\" size= \"3\" />";
+	document.getElementById("Heroin").innerHTML="Heroin $"+heroin() + "<input type=\"text\" name=\"heroin\" size= \"3\" />";
+	document.getElementById("PCP").innerHTML="PCP $"+pcp() + "<input type=\"text\" name=\"pcp\" size= \"3\" />";
+	document.getElementById("Shrooms").innerHTML="Shrooms $"+shrooms() + "<input type=\"text\" name=\"shrooms\" size= \"3\" />";
+	document.getElementById("Speed").innerHTML="Speed $"+speed() + "<input type=\"text\" name=\"speed\" size= \"3\" />";
+	document.getElementById("Weed").innerHTML="Weed $"+weed() + "<input type=\"text\" name=\"weed\" size= \"3\" />";
 	
 }
 function init(){
@@ -227,7 +238,8 @@ function init(){
 	}
 	updateInfo();	
 	loadItem();
-	getDrugPrice("g");
+	newsFeed ="";
+	newsEvent("<b>News:</b><br>");
 }
 
 function updateInfo(){
@@ -240,7 +252,13 @@ function updateInfo(){
 	document.getElementById("Bank").innerHTML="Bank: $" + bank;
 	document.getElementById("Health").innerHTML="Health: " + health;
 	document.getElementById("CurrentLoc").innerHTML="Current City: " + currentLoc;
+	getDrugPrice();
 }
+
+function newsEvent(action){
+	newsFeed += action + "<br>";
+	document.getElementById("news").innerHTML = newsFeed;	
+}	
 
 function travel(newLocation){
 	currentLoc = newLocation;
@@ -251,6 +269,7 @@ function travel(newLocation){
 		window.location="highscore.php"	
 	}else{
 		updateInfo();
+		newsEvent("Flew to " + newLocation + "<br>");
 	}
 }
 
