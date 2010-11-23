@@ -44,14 +44,138 @@ var weedCurrent = 0;
 var coatInfo;
 var itemInfo;
 
-function acid(){
-	var min = acidMin;
-	var max = acidMax;
-	if(currentLoc == "Bronx"){
-		min = min /2;
-	}else if (currentLoc === "Coney Island"){
-		max = max * 2;
-	}
+function acid()
+{
+        var min = acidMin;
+        var max = acidMax;
+        if(currentLoc == "Bronx")
+	{
+		max = min;
+                min = min /2;
+        }
+	else if (currentLoc === "Coney Island")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function cocaine()
+{
+        var min = cocaineMin;
+        var max = concaineMax;
+        if(currentLoc == "Brooklyn")
+	{
+		max = min;
+                min = min /2;
+        }
+	else if (currentLoc === "Manhatten")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function e()
+{
+        var min = eMin;
+        var max = eMax;
+        if(currentLoc == "Manhatten")
+	{
+		max = min;
+                min = min /2;
+        }
+	else if (currentLoc === "Ghetto")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function heroin()
+{
+        var min = heroinMin;
+        var max = heroinMax;
+        if(currentLoc == "Coney Island")
+	{
+		max = min;
+                min = min /2;
+        }
+	else if (currentLoc === "Central Park")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function pcp()
+{
+        var min = pcpMin;
+        var max = pcpMax;
+        if (currentLoc === "Queens")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function shrooms()
+{
+        var min = shroomsMin;
+        var max = shroomsMax;
+        if(currentLoc == "Queens")
+	{
+		max = min;
+                min = min /2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function speed()
+{
+        var min = speedMin;
+        var max = speedMax;
+        if(currentLoc == "Ghetto")
+	{
+		max = min;
+                min = min /2;
+        }
+	else if (currentLoc === "Brooklyn")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
+}
+
+function weed()
+{
+        var min = weedMin;
+        var max = weedMax;
+        if(currentLoc == "Central Park")
+	{
+		max = min;
+                min = min /2;
+        }
+	else if (currentLoc === "Bronx")
+	{
+		min = max;
+                max = max * 2;
+        }
+	var rand= min+(Math.random()*(max-min));
+	return Math.round(rand);
 }
 
 function loadItem(){
@@ -84,14 +208,14 @@ function getDrugPrice(city){
 	amount = 20;//random numbers
 	price = 10;
 
-	document.getElementById("Acid").innerHTML="Acid $"+price + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Cocaine").innerHTML="Cocaine ";
-	document.getElementById("E").innerHTML="Ecstasy ";
-	document.getElementById("Heroin").innerHTML="Heroin ";
-	document.getElementById("PCP").innerHTML="PCP ";
-	document.getElementById("Shrooms").innerHTML="Shrooms ";
-	document.getElementById("Speed").innerHTML="Speed ";
-	document.getElementById("Weed").innerHTML="Weed ";
+	document.getElementById("Acid").innerHTML="Acid $"+acid() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("Cocaine").innerHTML="Cocaine $"+cocaine() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("E").innerHTML="Ecstasy "+e() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("Heroin").innerHTML="Heroin "+heroin() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("PCP").innerHTML="PCP "+pcp() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("Shrooms").innerHTML="Shrooms "+shrooms() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("Speed").innerHTML="Speed "+speed() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
+	document.getElementById("Weed").innerHTML="Weed "+weed() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
 	
 }
 function init(){
