@@ -29,11 +29,11 @@ for ($i=1;$i<=10;$i++){
 		
 		$query = 'insert into highscores values(null,"'.$user.'",'.$newScore.');';
 		$db->query($query);	
-		echo '<tr><td>'.$user.'</td><td>'.$newScore.'</td></tr>';
+		echo '<tr class="newScore"><td class="name">'.$user.'</td><td class="score">'.$newScore.'</td></tr>';
 		$i++;
 		$newScore=0;//so it doesn't print multiple times
 	}
-	echo '<tr><td>'.$score['name'].'</td><td>'.$score['score'].'</td></tr>';
+	echo '<tr><td class="name">'.$score['name'].'</td><td class="score">'.$score['score'].'</td></tr>';
 	
 }
 ?>

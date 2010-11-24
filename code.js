@@ -256,7 +256,7 @@ function updateInfo(){
 }
 
 function newsEvent(action){
-	newsFeed += action + "<br>";
+	newsFeed += action ;
 	document.getElementById("news").innerHTML = newsFeed;	
 }	
 
