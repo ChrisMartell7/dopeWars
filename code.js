@@ -192,7 +192,7 @@ function weed()
 function loadItem(){
 	itemInfo[0] = "Acid ";
 	itemInfo[1] = "Cocaine ";
-	itemInfo[2] = "E ";
+	itemInfo[2] = "Ecstasy ";
 	itemInfo[3] = "Heroin ";
 	itemInfo[4] = "PCP ";
 	itemInfo[5] = "Shrooms ";

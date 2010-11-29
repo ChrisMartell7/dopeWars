@@ -1,4 +1,5 @@
 <?php
+
 require 'facebook.php';
 // Create our Application instance.
 $facebook = new Facebook(array(
@@ -31,34 +32,8 @@ if ($me) {
 $naitik = $facebook->api('/naitik');
 
 ?>
-
-
-<?php
-/* include the PHP Facebook Client Library to help
-  with the API calls and make life easy */
-require_once '/facebook-php-sdk/src/facebook.php';
-/* initialize the facebook API with your application API Key
-  and Secret */
-$facebook = new Facebook(db2488894a626f6091065e45b3fe5fe6,63c61ce39cf08a56b0b6f04c8b6ef414);
-
-// Create our Application instance.
-$facebook = new Facebook(array(
-  'appId'  => '110042632398450',
-  'secret' => '63c61ce39cf08a56b0b6f04c8b6ef414',
-  'cookie' => true,
-));
-
-
-/* require the user to be logged into Facebook before
-  using the application. If they are not logged in they
-  will first be directed to a Facebook login page and then
-  back to the application's page. require_login() returns
-  the user's unique ID which we will store in fb_user */
-$fb_user = $facebook->require_login();
-
-/* now we will say:
-  Hello USER_NAME! Welcome to my first application! */
-?>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<body>
 
 Hello <fb:name uid='<?php echo $fb_user; ?>' useyou='false' possessive='true' />! Welcome to my first application!
 
@@ -74,8 +49,6 @@ echo "<pre>Debug:" . print_r($facebook,true) . "</pre>";
 
 <?php
 
-appId="110042632398450";
-appSecret="63c61ce39cf08a56b0b6f04c8b6ef414";
 if(isset($_GET['money']))
 	$newScore = (int)$_GET['money'];
 else 
@@ -110,10 +83,16 @@ for ($i=1;$i<=10;$i++){
 	echo '<tr><td class="name">'.$score['name'].'</td><td class="score">'.$score['score'].'</td></tr>';
 	
 }
+
+
 ?>
 </table>
 <?php
 
 $db->close();
 include 'templates/footer.php';
+
 ?>
+
+</body>
+</html>
