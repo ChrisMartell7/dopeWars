@@ -1,15 +1,15 @@
 div#main{
 	position:relative;
-	width:60%;
+	width:100%;
 	height:100%;
-	border: 1px solid;
+	border: 2px solid;
 }
 
 div#gameinfo{
 	position:relative;
 	width:100%;
-	height:5%;
-	border: 1px solid;
+	height:6%;
+	border: 2px solid;
 }
 div#JetTo{
 		top:0;
@@ -81,26 +81,26 @@ div#Health{
 div#maininfo{
 	position:relative;
 	width:100%;
-	height:30%;
-	border: 1px solid;
+	height:11%;
+	border: 2px solid;
 }
 
 div#news{
-	top:35%;
+	top:18%;
 	left:0;
 	position:absolute;
 	width:50%;
-	height:30%;
-	border: 1px solid;
+	height:24%;
+	border: 2px solid;
 }
 
 div#side{
-	top:35%;
-	right:0;
+	top:18%;
+	right:-.75%;
 	position:absolute;
 	width:50%;
-	height:30%;
-	border: 1px solid;
+	height:24%;
+	border: 2px solid;
 }
 
 div#city{
@@ -108,15 +108,15 @@ div#city{
 	left:0;
 	position:absolute;
 	width:50%;
-	height:35%;
-	border: 1px solid;
+	height:57%;
+	border: 2px solid;
 }
 
 div#drugs{
 	bottom:0;
-	right:0;
+	right:-.75%;
 	position:absolute;
 	width:50%;
-	height:35%;
-	border: 1px solid;
+	height:57%;
+	border: 2px solid;
 }
