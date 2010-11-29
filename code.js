@@ -43,7 +43,7 @@ var weedCurrent = 0;
 var newsFeed;
 
 //will hold current coat. order is same as above (alphabetical)
-var coatInfo;
+var coatInfo = [0,0,0,0,0,0,0,0];
 var itemInfo;
 
 function acid()
@@ -216,17 +216,15 @@ function listCoat(){
 }
 
 function getDrugPrice(){
-	amount = 20;//random numbers
-	price = 10;
 
-	document.getElementById("Acid").innerHTML="Acid $"+acid() + "<input type=\"text\" name=\"acid\" size= \"3\" />";
-	document.getElementById("Cocaine").innerHTML="Cocaine $"+cocaine() + "<input type=\"text\" name=\"cocaine\" size= \"3\" />";
-	document.getElementById("E").innerHTML="Ecstasy $"+e() + "<input type=\"text\" name=\"e\" size= \"3\" />";
-	document.getElementById("Heroin").innerHTML="Heroin $"+heroin() + "<input type=\"text\" name=\"heroin\" size= \"3\" />";
-	document.getElementById("PCP").innerHTML="PCP $"+pcp() + "<input type=\"text\" name=\"pcp\" size= \"3\" />";
-	document.getElementById("Shrooms").innerHTML="Shrooms $"+shrooms() + "<input type=\"text\" name=\"shrooms\" size= \"3\" />";
-	document.getElementById("Speed").innerHTML="Speed $"+speed() + "<input type=\"text\" name=\"speed\" size= \"3\" />";
-	document.getElementById("Weed").innerHTML="Weed $"+weed() + "<input type=\"text\" name=\"weed\" size= \"3\" />";
+	document.getElementById("Acid").innerHTML="<th>Acid $</th><td>"+acid() + "</td><td><input type=\"text\" name=\"acid\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(0)'/></td><td><input type='submit' value='sell' onclick='sellStuff(0)'</td>";
+	document.getElementById("Cocaine").innerHTML="<th>Cocaine $</th><td>"+cocaine() + "</td><td><input type=\"text\" name=\"cocaine\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(1)'/></td><td><input type='submit' value='sell' onclick='sellStuff(1)'</td>";
+	document.getElementById("E").innerHTML="<th>Ecstasy $</th><td>"+e() + "</td><td><input type=\"text\" name=\"e\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(2)'/></td><td><input type='submit' value='sell' onclick='sellStuff(2)'</td>";
+	document.getElementById("Heroin").innerHTML="<th>Heroin $</th><td>"+heroin() + "</td><td><input type=\"text\" name=\"heroin\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(3)'/></td><td><input type='submit' value='sell' onclick='sellStuff(3)'</td>";
+	document.getElementById("PCP").innerHTML="<th>PCP $</th><td>"+pcp() + "</td><td><input type=\"text\" name=\"pcp\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(4)'/></td><td><input type='submit' value='sell' onclick='sellStuff(4)'</td>";
+	document.getElementById("Shrooms").innerHTML="<th>Shrooms $</th><td>"+shrooms() + "</td><td><input type=\"text\" name=\"shrooms\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(5)'/></td><td><input type='submit' value='sell' onclick='sellStuff(5)'</td>";
+	document.getElementById("Speed").innerHTML="<th>Speed $</th><td>"+speed() + "</td><td><input type=\"text\" name=\"speed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(6)'/></td><td><input type='submit' value='sell' onclick='sellStuff(6)'</td>";
+	document.getElementById("Weed").innerHTML="<th>Weed $</th><td>"+weed() + "</td><td><input type=\"text\" name=\"weed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(7)'/></td><td><input type='submit' value='sell' onclick='sellStuff(7)'</td>";
 	
 }
 function init(){
@@ -237,6 +235,7 @@ function init(){
 		coatInfo[i]=0;
 	}
 	updateInfo();	
+	getDrugPrice();
 	loadItem();
 	newsFeed ="";
 	newsEvent("<b>News:</b><br>");
@@ -252,7 +251,19 @@ function updateInfo(){
 	document.getElementById("Bank").innerHTML="Bank: $" + bank;
 	document.getElementById("Health").innerHTML="Health: " + health;
 	document.getElementById("CurrentLoc").innerHTML="Current City: " + currentLoc;
-	getDrugPrice();
+	updateCoat();
+
+}
+
+
+function updateCoat(){
+	var output = "<b>Coat:</b><br>";
+	for (var i = 0; i < coatInfo.length; i++){
+		if(coatInfo[i] > 0){
+			output += itemInfo[i] + coatInfo[i]; 
+		}
+	}		
+	document.getElementById("drugs").innerHTML = output;
 }
 
 function newsEvent(action){
@@ -270,10 +281,16 @@ function travel(newLocation){
 	}else{
 		updateInfo();
 		newsEvent("Flew to " + newLocation + "<br>");
+		getDrugPrice();
 	}
+
 }
 
-function buyStuff(item, price, quantity){
+function buyStuff(item){
+
+	var price = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML);
+	var quantity = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value);
+
 	//check coat size
 	if(quantity > coatSize){
 		return;
@@ -288,9 +305,14 @@ function buyStuff(item, price, quantity){
 	
 	//subtract money
 	cash -= (price*quantity);
+	updateInfo();
 }
 
-function sellStuff(item, price, quantity){
+
+function sellStuff(item){
+	var price = document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML;
+	var quantity = document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value;
+		
 	if(quantity > coatInfo[item]){
 		return;
 	}
@@ -302,5 +324,5 @@ function sellStuff(item, price, quantity){
 	
 	//add to cash
 	cash += price*quantity;
-	
+	updateInfo();	
 }
