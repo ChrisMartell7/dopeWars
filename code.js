@@ -38,7 +38,28 @@ var coatInfo = [0,0,0,0,0,0,0,0];
 var currentPrice = [0,0,0,0,0,0,0,0];
 
 var itemInfo;
+function refreshAds(){
 
+
+
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET","php/newAd.php",true);
+	xmlhttp.onreadystatechange=function(){
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+ 			document.getElementById("ad1").innerHTML=xmlhttp.responseText;
+    		}
+  	}
+	xmlhttp.send();
+	
+	xmlhttpb = new XMLHttpRequest();
+	xmlhttpb.open("GET","php/newAdbottom.php",true);
+	xmlhttpb.onreadystatechange=function(){
+  		if (xmlhttpb.readyState==4 && xmlhttpb.status==200){
+ 			document.getElementById("ad2").innerHTML=xmlhttpb.responseText;
+    		}
+  	}
+	xmlhttpb.send();
+}
 function acid()
 {
         var min = acidMin;
@@ -256,7 +277,7 @@ function updateInfo(){
 	document.getElementById("Health").innerHTML="Health: " + health;
 	document.getElementById("CurrentLoc").innerHTML="Current City: " + currentLoc;
 	updateCoat();
-	
+	refreshAds();
 }
 
 
@@ -349,7 +370,7 @@ function buyStuff(item){
 	var quantity = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value);
 	
 	//check coat size
-	if(quantity > coatSize){
+	if(quantity+coat > coatSize){
 		return;
 	}
 	//check money available
