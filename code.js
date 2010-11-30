@@ -37,16 +37,32 @@ var userName;
 var coatInfo = [0,0,0,0,0,0,0,0];
 var currentPrice = [0,0,0,0,0,0,0,0];
 
+var gunNames = ["9mil","glock","AK","shotty","38 special"];
+var gunPrices = [2000,3000,5000,10000,15000];
+var gunAmounts =[0,0,0,0,0];
+
 var itemInfo;
+
+function graphStreamPublish(){
+       var body = 'Reading New Graph api & Javascript Base FBConnect Tutorial';
+        FB.api('/me/feed', 'post', { message: body }, function(response) {
+            if (!response || response.error) {
+                 alert('Error occured');
+            } else {
+                 alert('Post ID: ' + response.id);
+            }
+       });
+}
 function refreshAds(){
-
-
+/*
+	
 
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","php/newAd.php",true);
 	xmlhttp.onreadystatechange=function(){
   		if (xmlhttp.readyState==4 && xmlhttp.status==200){
- 			document.getElementById("ad1").innerHTML=xmlhttp.responseText;
+ 			alert(xmlhttp.responseText);
+			document.getElementById("ad1").innerHTML=xmlhttp.responseText;
     		}
   	}
 	xmlhttp.send();
@@ -59,6 +75,7 @@ function refreshAds(){
     		}
   	}
 	xmlhttpb.send();
+*/
 }
 function acid()
 {
@@ -310,7 +327,25 @@ function withdraw(){
 	}
 	updateInfo();
 }
-
+function buyGun(i){
+	if(document.getElementById(gunNames[i]).value=="on"){
+		if(cash>=gunPrices[i]){
+			gunAmounts[i]=1;
+			cash-=gunPrices[i];
+			guns++;
+		}else{
+			document.getElementById(gunNames[i]).checked=false;
+		}
+		
+	}else{
+		if(gunAmounts[i]==1){
+			gunAmounts[i]=0;
+			cash+=gunPrices[i];
+			guns--;
+		}
+	}
+	updateInfo();
+}
 function updateSide(){
 	var output = "";
 	if(currentLoc == "Bronx"){
@@ -318,7 +353,12 @@ function updateSide(){
 		output += "<br><br><b>Loan Shark</b><br><input type=\"text\" id=\"sharkVal\" size= \"10\" /></td><td><input type='submit' value='Borrow' onclick='borrow()'/> <input type='submit' value='Repay' onclick='repay()'/>";
 	}
 	else{
-
+	var i = Math.floor(Math.random()*5);
+	output += "<b>Guns</b><br />";
+		if(gunAmounts[i])
+			output+="<label for='"+gunNames[i]+"'>"+gunNames[i]+"($"+gunPrices[i]+")</label><input checked type='checkbox' id='"+gunNames[i]+"' onclick='buyGun("+i+")' /><br/>";
+		else
+			output+="<label for='"+gunNames[i]+"'>"+gunNames[i]+"("+gunPrices[i]+")</label><input type='checkbox' id='"+gunNames[i]+"' onclick='buyGun("+i+")'/><br/>";
 	}
 	document.getElementById("side").innerHTML = output;
 
