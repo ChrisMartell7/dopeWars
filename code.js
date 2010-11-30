@@ -30,20 +30,13 @@ var speedMin = 220;
 var weedMax = 900;
 var weedMin = 350;
 
-//current drug prices
-var acidCurrent = 0;
-var cocaineCurrent = 0;
-var eCurrent = 0;
-var heroinCurrent = 0;
-var pcpCurrent = 0;
-var shroomsCurrent = 0;
-var speedCurrent = 0;
-var weedCurrent = 0;
 
 var newsFeed;
 
 //will hold current coat. order is same as above (alphabetical)
 var coatInfo = [0,0,0,0,0,0,0,0];
+var currentPrice = [0,0,0,0,0,0,0,0];
+
 var itemInfo;
 
 function acid()
@@ -61,8 +54,8 @@ function acid()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	acidCurrent = Math.round(rand);
-	return acidCurrent;
+	currentPrice[0] = Math.round(rand);
+	return currentPrice[0];
 }
 
 function cocaine()
@@ -80,8 +73,8 @@ function cocaine()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	cocaineCurrent =  Math.round(rand);
-	return cocaineCurrent;
+	currentPrice[1] =  Math.round(rand);
+	return currentPrice[1];
 }
 
 function e()
@@ -99,8 +92,8 @@ function e()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	eCurrent =  Math.round(rand);
-	return eCurrent;
+	currentPrice[2] =  Math.round(rand);
+	return currentPrice[2];
 }
 
 function heroin()
@@ -118,8 +111,8 @@ function heroin()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	heroinCurrent = Math.round(rand);
-	return heroinCurrent;
+	currentPrice[3] = Math.round(rand);
+	return currentPrice[3];
 }
 
 function pcp()
@@ -132,8 +125,8 @@ function pcp()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	pcpCurrent = Math.round(rand);
-	return pcpCurrent;
+	currentPrice[4] = Math.round(rand);
+	return currentPrice[4];
 }
 
 function shrooms()
@@ -146,8 +139,8 @@ function shrooms()
                 min = min /2;
         }
 	var rand= min+(Math.random()*(max-min));
-	shroomsCurrent = Math.round(rand);
-	return shroomsCurrent;
+	currentPrice[5] = Math.round(rand);
+	return currentPrice[5];
 }
 
 function speed()
@@ -165,8 +158,8 @@ function speed()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	speedCurrent = Math.round(rand);
-	return speedCurrent;
+	currentPrice[6] = Math.round(rand);
+	return currentPrice[6];
 }
 
 function weed()
@@ -184,8 +177,8 @@ function weed()
                 max = max * 2;
         }
 	var rand= min+(Math.random()*(max-min));
-	weedCurrent =  Math.round(rand);
-	return weedCurrent;
+	currentPrice[7] =  Math.round(rand);
+	return currentPrice[7];
 }
 
 
@@ -237,6 +230,7 @@ function init(){
 	updateInfo();	
 	getDrugPrice();
 	loadItem();
+	updateSide();
 	newsFeed ="";
 	newsEvent("<b>News:</b><br>");
 }
@@ -252,7 +246,7 @@ function updateInfo(){
 	document.getElementById("Health").innerHTML="Health: " + health;
 	document.getElementById("CurrentLoc").innerHTML="Current City: " + currentLoc;
 	updateCoat();
-
+	
 }
 
 
@@ -266,6 +260,25 @@ function updateCoat(){
 	document.getElementById("drugs").innerHTML = output;
 }
 
+function updateSide(){
+	var output = "";
+	if(currentLoc == "Bronx"){
+		output += "<b>Bank</b><br><input type=\"text\" name=\"bankVal\" size= \"10\" /></td><td><input type='submit' value='Deposit' onclick='deposit(bankVal.value)'/> <input type='submit' value='Withdraw' onclick='withdraw(this.form)'/>";
+		output += "<br><br><b>Loan Shark</b><br><input type=\"text\" name=\"sharkVal\" size= \"10\" /></td><td><input type='submit' value='Borrow' onclick='borrow()'/> <input type='submit' value='Repay' onclick='repay()'/>";
+	}
+	else{
+
+	}
+	document.getElementById("side").innerHTML = output;
+
+
+}
+function deposit(form007){
+	//var amount = parseInt(form007.bankVal.value);
+	//cash -= amount;
+	document.getElementById("side").innerHTML = form007;	
+ //document.getElementById("side").innerHTML = document.getElementById('bankVal').text;	
+}
 function newsEvent(action){
 	newsFeed += action ;
 	document.getElementById("news").innerHTML = newsFeed;	
@@ -275,20 +288,22 @@ function travel(newLocation){
 	currentLoc = newLocation;
 	days -= 1;
 	debt = Math.floor(debt*(100+interestRate)/100);
-	if(days == -1){
+	if(days == 0){
 	//	document.print("<meta http-equiv=\"refresh\" content =\"\" url='highscore.php'");
 		window.location="highscore.php"	
 	}else{
 		updateInfo();
 		newsEvent("Flew to " + newLocation + "<br>");
 		getDrugPrice();
+		updateSide();	
 	}
 
 }
 
 function buyStuff(item){
 
-	var price = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML);
+//	var price = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML);
+	var price = currentPrice[item];
 	var quantity = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value);
 
 	//check coat size
