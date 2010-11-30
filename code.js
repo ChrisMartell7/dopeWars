@@ -32,7 +32,7 @@ var weedMin = 350;
 
 
 var newsFeed;
-
+var userName;
 //will hold current coat. order is same as above (alphabetical)
 var coatInfo = [0,0,0,0,0,0,0,0];
 var currentPrice = [0,0,0,0,0,0,0,0];
@@ -220,7 +220,17 @@ function getDrugPrice(){
 	document.getElementById("Weed").innerHTML="<th>Weed $</th><td>"+weed() + "</td><td><input type=\"text\" name=\"weed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(7)'/></td><td><input type='submit' value='sell' onclick='sellStuff(7)'</td>";
 	
 }
-function init(){
+
+/*function init(){
+	init("NONAME!!");
+}*/
+function init(uname){
+	if(uname){
+		userName = uname;
+	}else{
+		userName = "NONAME!";
+	}
+
 	//create array and initialize to 0
 	coatInfo = new Array(8);
 	itemInfo = new Array(8);
@@ -259,12 +269,32 @@ function updateCoat(){
 	}		
 	document.getElementById("drugs").innerHTML = output;
 }
+function repay(){
+	var amount = parseInt(document.getElementById("sharkVal").value);
+	cash -= amount;
+	debt -= amount;
+	updateInfo();
+}
+function borrow(){
+	var amount = parseInt(document.getElementById("sharkVal").value);
+	debt += amount;
+	cash += amount;
+	updateInfo();
+}
+function withdraw(){
+	var amount = parseInt(document.getElementById("bankVal").value);
+	if(amount<=bank){
+		cash += amount;
+		bank -= amount;
+	}
+	updateInfo();
+}
 
 function updateSide(){
 	var output = "";
 	if(currentLoc == "Bronx"){
-		output += "<b>Bank</b><br><input type=\"text\" name=\"bankVal\" size= \"10\" /></td><td><input type='submit' value='Deposit' onclick='deposit(bankVal.value)'/> <input type='submit' value='Withdraw' onclick='withdraw(this.form)'/>";
-		output += "<br><br><b>Loan Shark</b><br><input type=\"text\" name=\"sharkVal\" size= \"10\" /></td><td><input type='submit' value='Borrow' onclick='borrow()'/> <input type='submit' value='Repay' onclick='repay()'/>";
+		output += "<b>Bank</b><br><input type=\"text\" id=\"bankVal\" size= \"10\" /></td><td><input type='submit' value='Deposit' onclick='deposit()'/> <input type='submit' value='Withdraw' onclick='withdraw()'/>";
+		output += "<br><br><b>Loan Shark</b><br><input type=\"text\" id=\"sharkVal\" size= \"10\" /></td><td><input type='submit' value='Borrow' onclick='borrow()'/> <input type='submit' value='Repay' onclick='repay()'/>";
 	}
 	else{
 
@@ -273,24 +303,36 @@ function updateSide(){
 
 
 }
-function deposit(form007){
-	//var amount = parseInt(form007.bankVal.value);
-	//cash -= amount;
-	document.getElementById("side").innerHTML = form007;	
- //document.getElementById("side").innerHTML = document.getElementById('bankVal').text;	
+function deposit(){
+	var amount = parseInt(document.getElementById("bankVal").value);
+	if(amount<=cash){
+		cash -= amount;
+		bank += amount;
+	}
+	updateInfo();
 }
 function newsEvent(action){
 	newsFeed += action ;
 	document.getElementById("news").innerHTML = newsFeed;	
 }	
+function endGame(){
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET","highscore.php?money="+(cash-debt+bank)+"&name="+userName,false);
+	xmlhttp.send();
+	document.getElementById("main").innerHTML = xmlhttp.responseText;
+	
+}
+function kill(){
+	days=1;
+	travel("Bronx");
+}
 
 function travel(newLocation){
 	currentLoc = newLocation;
 	days -= 1;
 	debt = Math.floor(debt*(100+interestRate)/100);
 	if(days == 0){
-	//	document.print("<meta http-equiv=\"refresh\" content =\"\" url='highscore.php'");
-		window.location="highscore.php"	
+		endGame();
 	}else{
 		updateInfo();
 		newsEvent("Flew to " + newLocation + "<br>");
@@ -305,7 +347,7 @@ function buyStuff(item){
 //	var price = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML);
 	var price = currentPrice[item];
 	var quantity = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value);
-
+	
 	//check coat size
 	if(quantity > coatSize){
 		return;
