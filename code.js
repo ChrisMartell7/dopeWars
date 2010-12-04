@@ -52,7 +52,7 @@ var gunPrices = [2000,3000,5000,10000,15000];
 var gunAmounts =[0,0,0,0,0];
 
 var itemName;
-var firstTime;
+var firstTime = 0;
 
 
 function loadAbout(){
@@ -88,8 +88,23 @@ function loadInvite(){
         xmlhttp.send();
 	document.getElementById("main").style.border = "2px solid";
         document.getElementById("main").innerHTML = xmlhttp.responseText;
-	getInvites();
+	document.getElementById("main").innerHTML = "<iframe id='myIframe' src='friends.php' width='100%' height='100%' scrolling=yes  ></iframe>";
+//	document.body.onload();
+//	document.getElementById("main").reload();	
 }
+
+
+
+function resizeIframe(iframe) {
+    // This function resizes an IFrame object
+    // to fit its content.
+    // The IFrame tag must have a unique ID attribute.
+    iframe.height = document.frames[iframe.id].document.body.scrollHeight;
+}
+
+
+
+
 function loadChat(){
 	window.open ("chatWindow.php","mywindow","status=1, width=425, height=550");		
 }
@@ -385,6 +400,8 @@ function initializeValues(){
 	getHighScore();
 }
 function init(uname,  u){
+	if(firstTime > 0)
+		return;
 	if(uname){
 		userName = uname;
 	}else{

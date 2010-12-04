@@ -33,20 +33,72 @@ $naitik = $facebook->api('/naitik');
 
 
 ?>
-	<fb:serverFbml>
-	<script type="text/fbml">
-	<fb:fbml>
-	    <fb:request-form
-	        method='POST'
-	        type='Sling drugs with me'
-	        content='Would you like to try and sling some drugs??'
-	            <fb:req-choice url="http://apps.facebook.com/smiley/yes.php" 
-	                label="Yes" />'
-	            <fb:req-choice url="http://apps.facebook.com/smiley/no.php" 
-	                label="No" />'
-	        <fb:multi-friend-selector 
-	            actiontext="Invite your friends to try and be a better drug dealer than you.">
-	    </fb:request-form>
-	</fb:fbml>
-	</script>
-	</fb:serverFbml>
+<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script>
+
+
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+   <script>
+        try{
+                FB.JSON.stringify = function (value) { return JSON.encode(value);};
+                FB.init({
+                  appId   : '<?php echo $facebook->getAppId(); ?>',
+                  status  : true, // check login status
+                  cookie  : true, // enable cookies to allow the server to access the session
+                  xfbml   : true // parse XFBML
+                });
+        }
+        finally{}
+
+        var dialog = {
+    method: 'fbml.dialog',
+    display: 'dialog',
+    fbml: '<fb:header icon="false" decoration="add_border">Hello World!</fb:header><fb:profile-pic uid="5526183"></fb:profile-pic>',
+    width: 800,
+    height: 100
+  };
+
+    </script>
+
+
+
+<fb:serverFbml style="width: 560px;" width="560" >
+        <script type="text/fbml">
+        <fb:fbml>
+
+            <fb:request-form
+                method='POST'
+                type='Come sling some dope with me!'
+                content='Would you like to try and sling some drugs??'
+                    <fb:req-choice url="http://apps.facebook.com/smiley/yes.php"
+                        label="Yes" />
+                    <fb:req-choice url="http://apps.facebook.com/smiley/no.php"
+                        label="No" />
+                <fb:multi-friend-selector
+                    actiontext="Invite your friends to the dark world of drug trading. ">
+            </fb:request-form>
+        </fb:fbml>
+        </script>
+</fb:serverFbml>
+
+
+
+<!--
+<fb:serverFbml style="width: 550px;">  
+     <script type="text/fbml">
+        <fb:fbml>
+            <fb:request-form
+                action="http://apps.facebook.com/110042632398450/"
+                method="POST"
+                invite="true"
+                type="XFBML"
+                content="This is a test invitation from XFBML test app">
+                <fb:req-choice url="http://apps.facebook.com/110042632398450/" label="Confirm" />
+             </fb:request-form>
+                <fb:multi-friend-selector
+                    showborder="false"
+                    actiontext="Invite your friends to use Facebook." />
+         </fb:fbml>
+    </script>
+</fb:serverFbml>
+
+-->
