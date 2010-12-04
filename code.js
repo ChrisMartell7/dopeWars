@@ -1,7 +1,7 @@
 //Global Modifiers
 var drugFontSize = 12.5;//the size of the the font for the table that holds drugs
 var numDrugs = 8;
-
+var numGuns = 5;
 
 var days = 30;
 var coat = 0;
@@ -85,6 +85,7 @@ function loadInvite(){
         xmlhttp.send();
 	document.getElementById("main").style.border = "2px solid";
         document.getElementById("main").innerHTML = xmlhttp.responseText;
+	getInvites();
 }
 function loadChat(){
 	window.open ("chatWindow.php","mywindow","status=1, width=425, height=550");		
@@ -140,7 +141,7 @@ function refreshGameValues(){
 	newsEvent("");	
 	
 	//update the side pannel
-	updateSideItem();
+	getSideItem();
 
 	//get the drug prices
 	getDrugPrice();
@@ -289,14 +290,14 @@ function weed()
 
 
 function loadItem(){
-	itemInfo[0] = "Acid ";
-	itemInfo[1] = "Cocaine ";
-	itemInfo[2] = "Ecstasy ";
-	itemInfo[3] = "Heroin ";
-	itemInfo[4] = "PCP ";
-	itemInfo[5] = "Shrooms ";
-	itemInfo[6] = "Speed ";
-	itemInfo[7] = "Weed ";
+	itemInfo[0] = "Acid";
+	itemInfo[1] = "Cocaine";
+	itemInfo[2] = "Ecstasy";
+	itemInfo[3] = "Heroin";
+	itemInfo[4] = "PCP";
+	itemInfo[5] = "Shrooms";
+	itemInfo[6] = "Speed";
+	itemInfo[7] = "Weed";
 	
 }
 function listCoat(){
@@ -325,8 +326,8 @@ function updateDrugPrice(){
 }
 function getDrugPrice(){
 	var output = "<th>";
-	for(var i = 0; i < itemInfo.length; i++){
-		output+=itemInfo[i]+" $</th><td>" + currentPrice[i] +  "</td><td><input type=\"text\" name=\"" + itemInfo[i] + "\" id=\"drug" + i + "\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(" + i + ")'/></td><td><input type='submit' value='sell' onclick='sellStuff(" + i + ")'</td>"; 
+	for(var i = 0; i < numDrugs; i++){
+		output+=itemInfo[i]+"  $</th><td>" + currentPrice[i] +  "</td><td><input type=\"text\" name=\"" + itemInfo[i] + "\" id=\"drug" + i + "\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(" + i + ")'/></td><td><input type='submit' value='sell' onclick='sellStuff(" + i + ")'</td>"; 
 		document.getElementById(itemInfo[i]).innerHTML = output;
 		output = "<th>";
 	} 
@@ -341,9 +342,10 @@ function initializeValues(){
 	guns = 0;
 	bank = 0;
 	health = 100;
-	currentLoc="Bronx";
+	currentLoc = "Bronx";
 	interestRate = 12;
 	newsFeed="<b>News:</b><br>";
+	sideItem = "";
 	for(var i = 0; i < coatInfo.length; i++){
 		coatInfo[i] = 0;
 	}
@@ -354,7 +356,8 @@ function initializeValues(){
 	//get the side item
 	updateSideItem();
 
-	//get the drug prices for the city
+	//Set the names and get the drug prices for the city
+	loadItem();
 	updateDrugPrice();
 }
 function init(uname,  u){
@@ -458,23 +461,24 @@ function buyGun(i){
 
 
 function updateSideItem(){
-	var output = "";
+	sideItem = "";
 	if(currentLoc == "Bronx"){
-		output += "<b>Bank</b><br><input type=\"text\" id=\"bankVal\" size= \"10\" /></td><td><input type='submit' value='Deposit' onclick='deposit()'/> <input type='submit' value='Withdraw' onclick='withdraw()'/>";
-		output += "<br><br><b>Loan Shark</b><br><input type=\"text\" id=\"sharkVal\" size= \"10\" /></td><td><input type='submit' value='Borrow' onclick='borrow()'/> <input type='submit' value='Repay' onclick='repay()'/>";
+		sideItem += "<b>Bank</b><br><input type=\"text\" id=\"bankVal\" size= \"10\" /></td><td><input type='submit' value='Deposit' onclick='deposit()'/> <input type='submit' value='Withdraw' onclick='withdraw()'/>";
+		sideItem += "<br><br><b>Loan Shark</b><br><input type=\"text\" id=\"sharkVal\" size= \"10\" /></td><td><input type='submit' value='Borrow' onclick='borrow()'/> <input type='submit' value='Repay' onclick='repay()'/>";
 	}
 	else{
-	var i = Math.floor(Math.random()*5);
-	output += "<b>Guns</b><br />";
+		var i = Math.floor(Math.random()*numGuns);
+		sideItem += "<b>Guns</b><br />";
 		if(gunAmounts[i])
-			output+="<label for='"+gunNames[i]+"'>"+gunNames[i]+"($"+gunPrices[i]+")</label><input checked type='checkbox' id='"+gunNames[i]+"' onclick='buyGun("+i+")' /><br/>";
+			sideItem+="<label for='"+gunNames[i]+"'>"+gunNames[i]+"($"+gunPrices[i]+")</label><input checked type='checkbox' id='"+gunNames[i]+"' onclick='buyGun("+i+")' /><br/>";
 		else
-			output+="<label for='"+gunNames[i]+"'>"+gunNames[i]+"("+gunPrices[i]+")</label><input type='checkbox' id='"+gunNames[i]+"' onclick='buyGun("+i+")'/><br/>";
+			sideItem+="<label for='"+gunNames[i]+"'>"+gunNames[i]+"("+gunPrices[i]+")</label><input type='checkbox' id='"+gunNames[i]+"' onclick='buyGun("+i+")'/><br/>";
 	}
-	document.getElementById("side").innerHTML = output;
-
-
 }
+function getSideItem(){
+	document.getElementById("side").innerHTML = sideItem;
+}
+
 function deposit(){
 	var amount = parseInt(document.getElementById("bankVal").value);
 	if(amount<=cash){
@@ -500,9 +504,11 @@ function travel(newLocation){
 		loadHighscore();
 	}else{
 		updatePlayerStatus();
-		newsEvent("Flew to " + newLocation + "<br>");
-		getDrugPrice();
+		newsEvent("Flew to " + currentLoc + "<br>");
 		updateSideItem();	
+		getSideItem();
+		updateDrugPrice();
+		getDrugPrice();
 	}
 
 }
