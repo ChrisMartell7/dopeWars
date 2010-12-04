@@ -61,7 +61,7 @@ $naitik = $facebook->api('/naitik');
 
 
 
-<fb:serverFbml style="width: 560px;" width="560" >
+<fb:serverFbml style="width: 550px; height: 490px;" height="490" width="550" >
         <script type="text/fbml">
         <fb:fbml>
 
@@ -69,11 +69,9 @@ $naitik = $facebook->api('/naitik');
                 method='POST'
                 type='Come sling some dope with me!'
                 content='Would you like to try and sling some drugs??'
-                    <fb:req-choice url="http://apps.facebook.com/smiley/yes.php"
-                        label="Yes" />
-                    <fb:req-choice url="http://apps.facebook.com/smiley/no.php"
-                        label="No" />
-                <fb:multi-friend-selector
+                    <fb:req-choice url="http://apps.facebook.com/110042632398450"
+                        label="Confirm" />
+                <fb:multi-friend-selector cols="4" style="width: 550px; height: 490px;"
                     actiontext="Invite your friends to the dark world of drug trading. ">
             </fb:request-form>
         </fb:fbml>

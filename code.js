@@ -88,7 +88,7 @@ function loadInvite(){
         xmlhttp.send();
 	document.getElementById("main").style.border = "2px solid";
         document.getElementById("main").innerHTML = xmlhttp.responseText;
-	document.getElementById("main").innerHTML = "<iframe id='myIframe' src='friends.php' width='100%' height='100%' scrolling=yes  ></iframe>";
+	document.getElementById("main").innerHTML = "<iframe id='myIframe' src='friends.php' width='100%' height='100%' scrolling=no  ></iframe>";
 //	document.body.onload();
 //	document.getElementById("main").reload();	
 }
