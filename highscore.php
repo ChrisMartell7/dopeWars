@@ -43,6 +43,7 @@ for ($i=1;$i<=10;$i++){
 
 ?>
 </table>
+<input type="submit" value="Play Again?"  onclick="window.location=window.history.back(1);" />
 <?php
 
 $db->close();

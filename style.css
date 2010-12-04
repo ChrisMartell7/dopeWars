@@ -1,17 +1,51 @@
+/*
+***************************************************
+                Main gameplay Window
+***************************************************
+*/
+
+/* Will hold game area */
 div#main{
 	position:relative;
 	width:100%;
 	height:100%;
-	border: 2px solid;
+	border:0;
 }
-
+/* Will hold menu of options */
+div#menu{
+	position:relative;
+	width:100%;
+	height:5%;
+	margin-bottom:0%;
+	border:1px solid;
+	border-right:2px solid;
+        border-left:2px solid;
+	border-top:2px solid;
+}
+/* Box to hold name and facebook pic */
 div#gameinfo{
 	position:relative;
 	width:100%;
-	height:6%;
-	border: 2px solid;
+	height:7%;
+	border: 1px solid;
+	border-right:2px solid;
+        border-left:2px solid;
+
 }
-div#JetTo{
+
+/* will hold stats */
+div#playerStatus{
+        position:relative;
+        width:100%;
+        height:11%;
+        border: 1px solid;
+	border-right:2px solid;
+        border-left:2px solid;
+
+}
+
+/* Inside gameinfo window */
+	div#JetTo{
 		top:0;
 		left:0;
 		position:absolute;
@@ -19,14 +53,14 @@ div#JetTo{
 		height:33%;
 		
 	}
-div#Days{
+	div#Days{
 		top:0;
 		left:33%;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
-div#Coat{
+	div#Coat{
 		top:0;
 		left:66%;
 		position:absolute;
@@ -34,89 +68,200 @@ div#Coat{
 		height:33%;
 	}
 
-div#Cash{
+	div#Cash{
 		top:34%;
 		left:0;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
-div#Debt{
+	div#Debt{
 		top:34%;
 		left:33%;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
-div#Bank{
+	div#Bank{
 		top:34%;
 		left:66%;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
-div#CurrentLoc{
+	div#CurrentLoc{
 		bottom:0;
 		left:0;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
-div#Guns{
+	div#Guns{
 		bottom:0;
 		left:33%;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
-div#Health{
+	div#Health{
 		bottom:0;
 		left:66%;
 		position:absolute;
 		width:33%;
 		height:33%;
 	}
+/* END maininfo window */
 
 
-div#maininfo{
+/* This row holds the News and side Item panel */
+div#row1{
 	position:relative;
+	height:24%;
 	width:100%;
-	height:11%;
-	border: 2px solid;
+	border:1px solid;
+	border-right:2px solid;
+        border-left:2px solid;
+}
+/* Inside row1 */
+	div#news{
+		left:0;
+		position:absolute;
+		width:50%;
+		height:100%;
+		border-right:1px solid;
+	}
+
+	div#side{
+		/* right:-.75%; */
+		right:0;
+		position:absolute;
+		width:50%;
+		height:100%;
+		border-left: 1px solid;
+	}
+/* END inside row1 */
+
+
+/* Row2 holds the drugs in the city and the coatItems panel */
+div#row2{
+	position:relative;
+	height:53%;
+	width:100%;
+	border:1px solid;
+	border-right:2px solid;
+	border-left:2px solid;
+	border-bottom:2px solid;
+
+
+}
+/* Inside row2 */
+	/* This will show all drugs available in city */
+	div#city{
+		bottom:0;
+		left:0;
+		position:absolute;
+		width:50%;
+		height:100%;
+		border-right:1px solid;
+	}
+	/* This will show items& quantity of all items user is carrying in coat */
+	div#coatList{
+		bottom:0;
+		right:0;
+	/*	right:-.75%; */
+		position:absolute;
+		width:50%;
+		height:100%;
+		border-left:1px solid;	
+	}
+/*END inside row2 */
+
+/*
+***************************************************
+            TO SETUP THE MENU BAR
+***************************************************
+*/
+div#aboutButton{
+	left:1%;
+	position:absolute;
+	width:10%;
+	height:100%;
+}
+div#gameButton{
+        left:11%;
+        position:absolute;
+        width:10%;
+        height:100%;
+}
+div#highscoreButton{
+        left:22%;
+        position:absolute;
+        width:15%;
+        height:100%;
+}
+div#inviteButton{
+        left:38%;
+        position:absolute;
+        width:10%;
+        height:100%;
+}
+div#chatButton{
+        left:48%;
+        position:absolute;
+        width:10%;
+        height:100%;
 }
 
-div#news{
-	top:18%;
-	left:0;
-	position:absolute;
-	width:50%;
-	height:24%;
-	border: 2px solid;
+
+
+
+
+
+
+
+/*
+***************************************************
+		TO GET COOL BUTTON 
+***************************************************
+*/
+
+
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+a.squarebutton{
+	background: transparent url('media/square-gray-left.gif') no-repeat top left;
+	display: block;
+	float: left;
+	font: normal 12px Arial; /* Change 12px as desired */
+	line-height: 15px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 23px) */
+	height: 23px; /* Height of button background height */
+	padding-left: 9px; /* Width of left menu image */
+	text-decoration: none;
 }
 
-div#side{
-	top:18%;
-	right:-.75%;
-	position:absolute;
-	width:50%;
-	height:24%;
-	border: 2px solid;
+a:link.squarebutton, a:visited.squarebutton, a:active.squarebutton{
+	color: #494949; /*button text color*/
 }
 
-div#city{
-	bottom:0;
-	left:0;
-	position:absolute;
-	width:50%;
-	height:57%;
-	border: 2px solid;
+a.squarebutton span{
+	background: transparent url('media/square-gray-right.gif') no-repeat top right;
+	display: block;
+	padding: 4px 9px 4px 0; /*Set 9px below to match value of 'padding-left' value above*/
 }
 
-div#drugs{
-	bottom:0;
-	right:-.75%;
-	position:absolute;
-	width:50%;
-	height:57%;
-	border: 2px solid;
+a.squarebutton:hover{ /* Hover state CSS */
+	background-position: bottom left;
 }
+
+a.squarebutton:hover span{ /* Hover state CSS */
+	background-position: bottom right;
+	color: black;
+}
+
+.buttonwrapper{ /* Container you can use to surround a CSS button to clear float */
+	overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+	width: 100%;
+}
+
+

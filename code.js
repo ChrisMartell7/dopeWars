@@ -1,3 +1,7 @@
+//Global Modifiers
+var drugFontSize = 12.5;//the size of the the font for the table that holds drugs
+
+
 
 var days = 30;
 var coat = 0;
@@ -33,6 +37,8 @@ var weedMin = 350;
 
 var newsFeed;
 var userName;
+var userPic;
+
 //will hold current coat. order is same as above (alphabetical)
 var coatInfo = [0,0,0,0,0,0,0,0];
 var currentPrice = [0,0,0,0,0,0,0,0];
@@ -42,6 +48,48 @@ var gunPrices = [2000,3000,5000,10000,15000];
 var gunAmounts =[0,0,0,0,0];
 
 var itemInfo;
+var firstTime;
+
+
+function loadAbout(){
+	xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","about.html",false);
+        xmlhttp.send();
+	document.getElementById("main").style.border = "2px solid";
+        document.getElementById("main").innerHTML = xmlhttp.responseText;
+}
+
+
+function loadGame(){
+	xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","game.php",false);
+        xmlhttp.send();
+        document.getElementById("main").innerHTML = xmlhttp.responseText;
+	document.getElementById("main").style.border = "0px solid";
+	if(firstTime == 0){
+		document.getElementById("userInfo").innerHTML = "Hello " + userName + "! " + userPic;	
+		firstTime = 1;
+	}else{
+		document.getElementById("userInfo").innerHTML = "Welcome Back " + userName + "! " + userPic;
+	}
+}
+function loadHighscore(){
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","highscore.php?money="+(cash-debt+bank)+"&name="+userName,false);
+        xmlhttp.send();
+	document.getElementById("main").style.border = "2px solid";
+        document.getElementById("main").innerHTML = xmlhttp.responseText;
+}
+function loadInvite(){
+	xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","friends.php",false);
+        xmlhttp.send();
+	document.getElementById("main").style.border = "2px solid";
+        document.getElementById("main").innerHTML = xmlhttp.responseText;
+}
+function loadChat(){
+	window.open ("chatWindow.php","mywindow","status=1, width=425, height=550");		
+}
 
 function graphStreamPublish(){
        var body = 'Reading New Graph api & Javascript Base FBConnect Tutorial';
@@ -236,7 +284,7 @@ function listCoat(){
 	for(var i = 0; i < 8; i++){
 		if(coatInfo[i] != 0){
 			coatList += itemInfo[i]+"<form method=\"post\" action=\"\">"+
-						"<textarea name=\"drug\" cols=\"3\" rows=\"1\">"+
+						"<textarea name=\"drugHolding\" cols=\"3\" rows=\"1\">"+
 						coatInfo[i]+
 						"</textarea> "+
 						"<input type=\"submit\" value=\"Sell\" /> " +
@@ -245,29 +293,58 @@ function listCoat(){
 		}
 	}
 }
-
+function updateDrugPrice(){
+	acid();
+	cocaine();
+	e();
+	heroin();
+	pcp();
+	shrooms();
+	speed();
+	weed();
+}
 function getDrugPrice(){
-
-	document.getElementById("Acid").innerHTML="<th>Acid $</th><td>"+acid() + "</td><td><input type=\"text\" name=\"acid\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(0)'/></td><td><input type='submit' value='sell' onclick='sellStuff(0)'</td>";
-	document.getElementById("Cocaine").innerHTML="<th>Cocaine $</th><td>"+cocaine() + "</td><td><input type=\"text\" name=\"cocaine\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(1)'/></td><td><input type='submit' value='sell' onclick='sellStuff(1)'</td>";
-	document.getElementById("E").innerHTML="<th>Ecstasy $</th><td>"+e() + "</td><td><input type=\"text\" name=\"e\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(2)'/></td><td><input type='submit' value='sell' onclick='sellStuff(2)'</td>";
-	document.getElementById("Heroin").innerHTML="<th>Heroin $</th><td>"+heroin() + "</td><td><input type=\"text\" name=\"heroin\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(3)'/></td><td><input type='submit' value='sell' onclick='sellStuff(3)'</td>";
-	document.getElementById("PCP").innerHTML="<th>PCP $</th><td>"+pcp() + "</td><td><input type=\"text\" name=\"pcp\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(4)'/></td><td><input type='submit' value='sell' onclick='sellStuff(4)'</td>";
-	document.getElementById("Shrooms").innerHTML="<th>Shrooms $</th><td>"+shrooms() + "</td><td><input type=\"text\" name=\"shrooms\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(5)'/></td><td><input type='submit' value='sell' onclick='sellStuff(5)'</td>";
-	document.getElementById("Speed").innerHTML="<th>Speed $</th><td>"+speed() + "</td><td><input type=\"text\" name=\"speed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(6)'/></td><td><input type='submit' value='sell' onclick='sellStuff(6)'</td>";
-	document.getElementById("Weed").innerHTML="<th>Weed $</th><td>"+weed() + "</td><td><input type=\"text\" name=\"weed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(7)'/></td><td><input type='submit' value='sell' onclick='sellStuff(7)'</td>";
+	var output = "<th>";
+	for(var i = 0; i < itemInfo.length; i++){
+		output+=itemInfo[i]+" $</th><td>" + currentPrice 
+		
+		output = "<th>";
+	} 
+	document.getElementById("Acid").innerHTML="<th>Acid $</th><td>"+acid() + "</td><td><input type=\"text\" name=\"acid\" id=\"drug0\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(0)'/></td><td><input type='submit' value='sell' onclick='sellStuff(0)'</td>";
+	document.getElementById("Cocaine").innerHTML="<th>Cocaine $</th><td>"+cocaine() + "</td><td><input  id=\"drug1\" type=\"text\" name=\"cocaine\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(1)'/></td><td><input type='submit' value='sell' onclick='sellStuff(1)'</td>";
+	document.getElementById("E").innerHTML="<th>Ecstasy $</th><td>"+e() + "</td><td><input type=\"text\"  id=\"drug2\" name=\"e\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(2)'/></td><td><input type='submit' value='sell' onclick='sellStuff(2)'</td>";
+	document.getElementById("Heroin").innerHTML="<th>Heroin $</th><td>"+heroin() + "</td><td><input  id=\"drug3\" type=\"text\" name=\"heroin\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(3)'/></td><td><input type='submit' value='sell' onclick='sellStuff(3)'</td>";
+	document.getElementById("PCP").innerHTML="<th>PCP $</th><td>"+pcp() + "</td><td><input  id=\"drug4\" type=\"text\" name=\"pcp\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(4)'/></td><td><input type='submit' value='sell' onclick='sellStuff(4)'</td>";
+	document.getElementById("Shrooms").innerHTML="<th>Shrooms $</th><td>"+shrooms() + "</td><td><input  id=\"drug5\"  type=\"text\" name=\"shrooms\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(5)'/></td><td><input type='submit' value='sell' onclick='sellStuff(5)'</td>";
+	document.getElementById("Speed").innerHTML="<th>Speed $</th><td>"+speed() + "</td><td><input  id=\"drug6\" type=\"text\" name=\"speed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(6)'/></td><td><input type='submit' value='sell' onclick='sellStuff(6)'</td>";
+	document.getElementById("Weed").innerHTML="<th>Weed $</th><td>"+weed() + "</td><td><input  id=\"drug7\" type=\"text\" name=\"weed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(7)'/></td><td><input type='submit' value='sell' onclick='sellStuff(7)'</td>";
 	
 }
 
 /*function init(){
 	init("NONAME!!");
 }*/
-function init(uname){
+function init(uname,  u){
 	if(uname){
 		userName = uname;
 	}else{
 		userName = "NONAME!";
 	}
+	
+	//if no user id passed in then use the default facebook logo. If id is then use their picture
+	if(u){
+		userPic = "<img src=\"https://graph.facebook.com/"+u+"/picture\" height=\"27\">";
+	}else{
+		userPic =  "<img src=\"http://farm1.static.flickr.com/225/503165914_a680a56c77_t.jpg\" height=\"27\">";
+	}
+	
+	
+	//Load the game and welcome them
+	firstTime = 0;	
+	loadGame();
+	
+	//set the size of the drug table
+	document.getElementById("drugTable").style.fontSize=drugFontSize;
 
 	//create array and initialize to 0
 	coatInfo = new Array(8);
@@ -302,10 +379,10 @@ function updateCoat(){
 	var output = "<b>Coat:</b><br>";
 	for (var i = 0; i < coatInfo.length; i++){
 		if(coatInfo[i] > 0){
-			output += itemInfo[i] + coatInfo[i]; 
+			output += itemInfo[i] + coatInfo[i] + "<br>"; 
 		}
 	}		
-	document.getElementById("drugs").innerHTML = output;
+	document.getElementById("coatList").innerHTML = output;
 }
 function repay(){
 	var amount = parseInt(document.getElementById("sharkVal").value);
@@ -376,13 +453,6 @@ function newsEvent(action){
 	newsFeed += action ;
 	document.getElementById("news").innerHTML = newsFeed;	
 }	
-function endGame(){
-	xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET","highscore.php?money="+(cash-debt+bank)+"&name="+userName,false);
-	xmlhttp.send();
-	document.getElementById("main").innerHTML = xmlhttp.responseText;
-	
-}
 function kill(){
 	days=1;
 	travel("Bronx");
@@ -393,7 +463,7 @@ function travel(newLocation){
 	days -= 1;
 	debt = Math.floor(debt*(100+interestRate)/100);
 	if(days == 0){
-		endGame();
+		loadHighscore();
 	}else{
 		updateInfo();
 		newsEvent("Flew to " + newLocation + "<br>");
@@ -407,8 +477,12 @@ function buyStuff(item){
 
 //	var price = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML);
 	var price = currentPrice[item];
-	var quantity = parseInt(document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value);
-	
+	if(document.getElementById("drug"+item).value == "")
+	{	
+		return;
+	}
+	var quantity = parseInt(document.getElementById("drug"+item).value);
+	document.getElementById("drug"+item).value = "";
 	//check coat size
 	if(quantity+coat > coatSize){
 		return;
@@ -428,9 +502,14 @@ function buyStuff(item){
 
 
 function sellStuff(item){
-	var price = document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[1].innerHTML;
-	var quantity = document.getElementById("drugTable").childNodes[1].childNodes[item*2+2].childNodes[2].childNodes[0].value;
+	var price = currentPrice[item];
+	if(document.getElementById("drug"+item).value == "")
+        {
+                return;
+        }
+	var quantity = document.getElementById("drug"+item).value;
 		
+	document.getElementById("drug"+item).value = "";
 	if(quantity > coatInfo[item]){
 		return;
 	}
