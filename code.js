@@ -40,6 +40,8 @@ var newsFeed;
 var userName;
 var userPic;
 var sideItem;
+var highestScore;
+var currentScore;
 
 //will hold current coat. order is same as above (alphabetical)
 var coatInfo = [0,0,0,0,0,0,0,0];
@@ -49,7 +51,7 @@ var gunNames = ["9mil","glock","AK","shotty","38 special"];
 var gunPrices = [2000,3000,5000,10000,15000];
 var gunAmounts =[0,0,0,0,0];
 
-var itemInfo;
+var itemName;
 var firstTime;
 
 
@@ -77,6 +79,7 @@ function loadHighscore(){
         xmlhttp.open("GET","highscore.php?money="+(cash-debt+bank)+"&name="+userName,false);
         xmlhttp.send();
 	document.getElementById("main").style.border = "2px solid";
+	document.getElementById("currentHighscore").innerHTML = "<b>Your score: </b>"+currentScore;
         document.getElementById("main").innerHTML = xmlhttp.responseText;
 }
 function loadInvite(){
@@ -89,6 +92,22 @@ function loadInvite(){
 }
 function loadChat(){
 	window.open ("chatWindow.php","mywindow","status=1, width=425, height=550");		
+}
+
+function getScore(){
+        currentScore = cash-debt+bank;
+        for(var i = 0; i < numGuns; i++){
+                if(gunAmounts[i] > 0){
+                        currentScore += gunPrices[i];
+                }
+        }
+	for(var i = 0; i < numDrugs; i++){
+		if(coatInfo[i] > 0){
+			currentScore += coatInfo[i]*currentPrice[i];
+		}
+	}
+        document.getElementById("userScore").innerHTML = "<b>Current Score: </b>" + currentScore;
+        document.getElementById("currentHighscore").innerHTML = "<b>High Score: </b>" + highestScore;
 }
 
 function graphStreamPublish(){
@@ -128,10 +147,11 @@ function refreshAds(){
 function refreshGameValues(){
 	//First welcome them either back or for the first time
 	if(firstTime == 0){
-                document.getElementById("userInfo").innerHTML = "Hello " + userName + "! " + userPic;
+                document.getElementById("userInfo").innerHTML = userPic + " Hello " + userName + "! ";
                 firstTime = 1;
         }else{
-                document.getElementById("userInfo").innerHTML = "Welcome Back " + userName + "! " + userPic;
+		document.getElementById("userInfo").style.left = "26%";
+                document.getElementById("userInfo").innerHTML = userPic + " Welcome Back " + userName + "!";
         }
 	
 	//Update the player status
@@ -290,21 +310,21 @@ function weed()
 
 
 function loadItem(){
-	itemInfo[0] = "Acid";
-	itemInfo[1] = "Cocaine";
-	itemInfo[2] = "Ecstasy";
-	itemInfo[3] = "Heroin";
-	itemInfo[4] = "PCP";
-	itemInfo[5] = "Shrooms";
-	itemInfo[6] = "Speed";
-	itemInfo[7] = "Weed";
+	itemName[0] = "Acid";
+	itemName[1] = "Cocaine";
+	itemName[2] = "Ecstasy";
+	itemName[3] = "Heroin";
+	itemName[4] = "PCP";
+	itemName[5] = "Shrooms";
+	itemName[6] = "Speed";
+	itemName[7] = "Weed";
 	
 }
 function listCoat(){
 	var coatList = "";
 	for(var i = 0; i < 8; i++){
 		if(coatInfo[i] != 0){
-			coatList += itemInfo[i]+"<form method=\"post\" action=\"\">"+
+			coatList += itemName[i]+"<form method=\"post\" action=\"\">"+
 						"<textarea name=\"drugHolding\" cols=\"3\" rows=\"1\">"+
 						coatInfo[i]+
 						"</textarea> "+
@@ -327,8 +347,8 @@ function updateDrugPrice(){
 function getDrugPrice(){
 	var output = "<th>";
 	for(var i = 0; i < numDrugs; i++){
-		output+=itemInfo[i]+"  $</th><td>" + currentPrice[i] +  "</td><td><input type=\"text\" name=\"" + itemInfo[i] + "\" id=\"drug" + i + "\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(" + i + ")'/></td><td><input type='submit' value='sell' onclick='sellStuff(" + i + ")'</td>"; 
-		document.getElementById(itemInfo[i]).innerHTML = output;
+		output+=itemName[i]+"  $</th><td>" + currentPrice[i] +  "</td><td><input type=\"text\" name=\"" + itemName[i] + "\" id=\"drug" + i + "\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(" + i + ")'/></td><td><input type='submit' value='sell' onclick='sellStuff(" + i + ")'</td>"; 
+		document.getElementById(itemName[i]).innerHTML = output;
 		output = "<th>";
 	} 
 }
@@ -346,6 +366,7 @@ function initializeValues(){
 	interestRate = 12;
 	newsFeed="<b>News:</b><br>";
 	sideItem = "";
+		
 	for(var i = 0; i < coatInfo.length; i++){
 		coatInfo[i] = 0;
 	}
@@ -359,6 +380,9 @@ function initializeValues(){
 	//Set the names and get the drug prices for the city
 	loadItem();
 	updateDrugPrice();
+
+	//get the highest score
+	getHighScore();
 }
 function init(uname,  u){
 	if(uname){
@@ -376,7 +400,7 @@ function init(uname,  u){
 	
 	//allocate array
 	coatInfo = new Array(numDrugs);
-        itemInfo = new Array(numDrugs);
+        itemName = new Array(numDrugs);
 
 
 	//Initialize all values
@@ -385,14 +409,6 @@ function init(uname,  u){
 	//Load the game and welcome them
 	firstTime = 0;	
 	loadGame();
-	
-
-	//create array and initialize to 0
-	coatInfo = new Array(8);
-	itemInfo = new Array(8);
-	for(i = 0; i < 8; i++){
-		coatInfo[i]=0;
-	}
 }
 
 function updatePlayerStatus(){
@@ -406,6 +422,7 @@ function updatePlayerStatus(){
 	document.getElementById("Health").innerHTML="Health: " + health;
 	document.getElementById("CurrentLoc").innerHTML="Current City: " + currentLoc;
 	updateCoat();
+	getScore();
 	refreshAds();
 }
 
@@ -414,7 +431,7 @@ function updateCoat(){
 	var output = "<b>Coat:</b><br>";
 	for (var i = 0; i < coatInfo.length; i++){
 		if(coatInfo[i] > 0){
-			output += itemInfo[i] + coatInfo[i] + "<br>"; 
+			output += itemName[i] + coatInfo[i] + "<br>"; 
 		}
 	}		
 	document.getElementById("coatList").innerHTML = output;
@@ -503,12 +520,12 @@ function travel(newLocation){
 	if(days == 0){
 		loadHighscore();
 	}else{
-		updatePlayerStatus();
 		newsEvent("Flew to " + currentLoc + "<br>");
 		updateSideItem();	
 		getSideItem();
 		updateDrugPrice();
 		getDrugPrice();
+		updatePlayerStatus();
 	}
 
 }

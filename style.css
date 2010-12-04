@@ -22,6 +22,7 @@ div#menu{
         border-left:2px solid;
 	border-top:2px solid;
 }
+
 /* Box to hold name and facebook pic */
 div#gameinfo{
 	position:relative;
@@ -32,6 +33,21 @@ div#gameinfo{
         border-left:2px solid;
 
 }
+/* Inside gameinfo */
+div#userInfo{
+	position:absolute;
+	left:32%;
+}
+div#userScore{
+        position:absolute;
+        right:0;
+        width:40%;
+}
+
+
+/* END inside gameinfo */
+
+
 
 /* will hold stats */
 div#playerStatus{
@@ -210,6 +226,12 @@ div#chatButton{
         position:absolute;
         width:10%;
         height:100%;
+}
+div#currentHighscore{
+        position:absolute;
+	right:0;
+	width:40%;
+	text-align:center;
 }
 
 

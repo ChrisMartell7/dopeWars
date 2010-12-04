@@ -43,7 +43,7 @@ for ($i=1;$i<=10;$i++){
 
 ?>
 </table>
-<input type="submit" value="Play Again?"  onclick="InitializeValues();loadGame();" />
+<input type="submit" value="Play Again?"  onclick="initializeValues();loadGame();" />
 <?php
 
 $db->close();
