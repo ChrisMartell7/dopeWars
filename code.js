@@ -1,6 +1,6 @@
 //Global Modifiers
 var drugFontSize = 12.5;//the size of the the font for the table that holds drugs
-
+var numDrugs = 8;
 
 
 var days = 30;
@@ -35,9 +35,11 @@ var weedMax = 900;
 var weedMin = 350;
 
 
+//These will hold the current state of the game
 var newsFeed;
 var userName;
 var userPic;
+var sideItem;
 
 //will hold current coat. order is same as above (alphabetical)
 var coatInfo = [0,0,0,0,0,0,0,0];
@@ -66,12 +68,9 @@ function loadGame(){
         xmlhttp.send();
         document.getElementById("main").innerHTML = xmlhttp.responseText;
 	document.getElementById("main").style.border = "0px solid";
-	if(firstTime == 0){
-		document.getElementById("userInfo").innerHTML = "Hello " + userName + "! " + userPic;	
-		firstTime = 1;
-	}else{
-		document.getElementById("userInfo").innerHTML = "Welcome Back " + userName + "! " + userPic;
-	}
+	
+	//refresh all of the game info values
+	refreshGameValues();
 }
 function loadHighscore(){
         xmlhttp = new XMLHttpRequest();
@@ -125,6 +124,35 @@ function refreshAds(){
 	xmlhttpb.send();
 */
 }
+function refreshGameValues(){
+	//First welcome them either back or for the first time
+	if(firstTime == 0){
+                document.getElementById("userInfo").innerHTML = "Hello " + userName + "! " + userPic;
+                firstTime = 1;
+        }else{
+                document.getElementById("userInfo").innerHTML = "Welcome Back " + userName + "! " + userPic;
+        }
+	
+	//Update the player status
+	updatePlayerStatus();
+
+	//Get them news
+	newsEvent("");	
+	
+	//update the side pannel
+	updateSideItem();
+
+	//get the drug prices
+	getDrugPrice();
+
+	//update the coat pannel
+	updateCoat();	
+
+	//set the size of the drug table
+        document.getElementById("drugTable").style.fontSize=drugFontSize;
+
+}
+
 function acid()
 {
         var min = acidMin;
@@ -141,7 +169,6 @@ function acid()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[0] = Math.round(rand);
-	return currentPrice[0];
 }
 
 function cocaine()
@@ -160,7 +187,6 @@ function cocaine()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[1] =  Math.round(rand);
-	return currentPrice[1];
 }
 
 function e()
@@ -179,7 +205,6 @@ function e()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[2] =  Math.round(rand);
-	return currentPrice[2];
 }
 
 function heroin()
@@ -198,7 +223,6 @@ function heroin()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[3] = Math.round(rand);
-	return currentPrice[3];
 }
 
 function pcp()
@@ -212,7 +236,6 @@ function pcp()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[4] = Math.round(rand);
-	return currentPrice[4];
 }
 
 function shrooms()
@@ -226,7 +249,6 @@ function shrooms()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[5] = Math.round(rand);
-	return currentPrice[5];
 }
 
 function speed()
@@ -245,7 +267,6 @@ function speed()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[6] = Math.round(rand);
-	return currentPrice[6];
 }
 
 function weed()
@@ -264,7 +285,6 @@ function weed()
         }
 	var rand= min+(Math.random()*(max-min));
 	currentPrice[7] =  Math.round(rand);
-	return currentPrice[7];
 }
 
 
@@ -306,24 +326,37 @@ function updateDrugPrice(){
 function getDrugPrice(){
 	var output = "<th>";
 	for(var i = 0; i < itemInfo.length; i++){
-		output+=itemInfo[i]+" $</th><td>" + currentPrice 
-		
+		output+=itemInfo[i]+" $</th><td>" + currentPrice[i] +  "</td><td><input type=\"text\" name=\"" + itemInfo[i] + "\" id=\"drug" + i + "\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(" + i + ")'/></td><td><input type='submit' value='sell' onclick='sellStuff(" + i + ")'</td>"; 
+		document.getElementById(itemInfo[i]).innerHTML = output;
 		output = "<th>";
 	} 
-	document.getElementById("Acid").innerHTML="<th>Acid $</th><td>"+acid() + "</td><td><input type=\"text\" name=\"acid\" id=\"drug0\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(0)'/></td><td><input type='submit' value='sell' onclick='sellStuff(0)'</td>";
-	document.getElementById("Cocaine").innerHTML="<th>Cocaine $</th><td>"+cocaine() + "</td><td><input  id=\"drug1\" type=\"text\" name=\"cocaine\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(1)'/></td><td><input type='submit' value='sell' onclick='sellStuff(1)'</td>";
-	document.getElementById("E").innerHTML="<th>Ecstasy $</th><td>"+e() + "</td><td><input type=\"text\"  id=\"drug2\" name=\"e\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(2)'/></td><td><input type='submit' value='sell' onclick='sellStuff(2)'</td>";
-	document.getElementById("Heroin").innerHTML="<th>Heroin $</th><td>"+heroin() + "</td><td><input  id=\"drug3\" type=\"text\" name=\"heroin\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(3)'/></td><td><input type='submit' value='sell' onclick='sellStuff(3)'</td>";
-	document.getElementById("PCP").innerHTML="<th>PCP $</th><td>"+pcp() + "</td><td><input  id=\"drug4\" type=\"text\" name=\"pcp\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(4)'/></td><td><input type='submit' value='sell' onclick='sellStuff(4)'</td>";
-	document.getElementById("Shrooms").innerHTML="<th>Shrooms $</th><td>"+shrooms() + "</td><td><input  id=\"drug5\"  type=\"text\" name=\"shrooms\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(5)'/></td><td><input type='submit' value='sell' onclick='sellStuff(5)'</td>";
-	document.getElementById("Speed").innerHTML="<th>Speed $</th><td>"+speed() + "</td><td><input  id=\"drug6\" type=\"text\" name=\"speed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(6)'/></td><td><input type='submit' value='sell' onclick='sellStuff(6)'</td>";
-	document.getElementById("Weed").innerHTML="<th>Weed $</th><td>"+weed() + "</td><td><input  id=\"drug7\" type=\"text\" name=\"weed\" size= \"3\" /></td><td><input type='submit' value='buy' onclick='buyStuff(7)'/></td><td><input type='submit' value='sell' onclick='sellStuff(7)'</td>";
-	
 }
 
-/*function init(){
-	init("NONAME!!");
-}*/
+function initializeValues(){
+	days = 30;
+	coat = 0;
+	coatSize = 100;
+	cash = 2000;
+	debt = 2000;
+	guns = 0;
+	bank = 0;
+	health = 100;
+	currentLoc="Bronx";
+	interestRate = 12;
+	newsFeed="<b>News:</b><br>";
+	for(var i = 0; i < coatInfo.length; i++){
+		coatInfo[i] = 0;
+	}
+	for(var i = 0; i < gunAmounts.length; i++){
+		gunAmounts[i] = 0;
+	}
+	
+	//get the side item
+	updateSideItem();
+
+	//get the drug prices for the city
+	updateDrugPrice();
+}
 function init(uname,  u){
 	if(uname){
 		userName = uname;
@@ -338,13 +371,18 @@ function init(uname,  u){
 		userPic =  "<img src=\"http://farm1.static.flickr.com/225/503165914_a680a56c77_t.jpg\" height=\"27\">";
 	}
 	
+	//allocate array
+	coatInfo = new Array(numDrugs);
+        itemInfo = new Array(numDrugs);
+
+
+	//Initialize all values
+	initializeValues();	
 	
 	//Load the game and welcome them
 	firstTime = 0;	
 	loadGame();
 	
-	//set the size of the drug table
-	document.getElementById("drugTable").style.fontSize=drugFontSize;
 
 	//create array and initialize to 0
 	coatInfo = new Array(8);
@@ -352,15 +390,9 @@ function init(uname,  u){
 	for(i = 0; i < 8; i++){
 		coatInfo[i]=0;
 	}
-	updateInfo();	
-	getDrugPrice();
-	loadItem();
-	updateSide();
-	newsFeed ="";
-	newsEvent("<b>News:</b><br>");
 }
 
-function updateInfo(){
+function updatePlayerStatus(){
 	document.getElementById("Days").innerHTML="Days: " + days;
   	document.getElementById("Coat").innerHTML="Coat: " + coat + "/<span id=\"CoatSize\"></span>";
 	document.getElementById("CoatSize").innerHTML=coatSize;
@@ -388,13 +420,13 @@ function repay(){
 	var amount = parseInt(document.getElementById("sharkVal").value);
 	cash -= amount;
 	debt -= amount;
-	updateInfo();
+	updatePlayerStatus();
 }
 function borrow(){
 	var amount = parseInt(document.getElementById("sharkVal").value);
 	debt += amount;
 	cash += amount;
-	updateInfo();
+	updatePlayerStatus();
 }
 function withdraw(){
 	var amount = parseInt(document.getElementById("bankVal").value);
@@ -402,7 +434,7 @@ function withdraw(){
 		cash += amount;
 		bank -= amount;
 	}
-	updateInfo();
+	updatePlayerStatus();
 }
 function buyGun(i){
 	if(document.getElementById(gunNames[i]).value=="on"){
@@ -421,9 +453,11 @@ function buyGun(i){
 			guns--;
 		}
 	}
-	updateInfo();
+	updatePlayerStatus();
 }
-function updateSide(){
+
+
+function updateSideItem(){
 	var output = "";
 	if(currentLoc == "Bronx"){
 		output += "<b>Bank</b><br><input type=\"text\" id=\"bankVal\" size= \"10\" /></td><td><input type='submit' value='Deposit' onclick='deposit()'/> <input type='submit' value='Withdraw' onclick='withdraw()'/>";
@@ -447,7 +481,7 @@ function deposit(){
 		cash -= amount;
 		bank += amount;
 	}
-	updateInfo();
+	updatePlayerStatus();
 }
 function newsEvent(action){
 	newsFeed += action ;
@@ -465,10 +499,10 @@ function travel(newLocation){
 	if(days == 0){
 		loadHighscore();
 	}else{
-		updateInfo();
+		updatePlayerStatus();
 		newsEvent("Flew to " + newLocation + "<br>");
 		getDrugPrice();
-		updateSide();	
+		updateSideItem();	
 	}
 
 }
@@ -497,7 +531,7 @@ function buyStuff(item){
 	
 	//subtract money
 	cash -= (price*quantity);
-	updateInfo();
+	updatePlayerStatus();
 }
 
 
@@ -521,5 +555,5 @@ function sellStuff(item){
 	
 	//add to cash
 	cash += price*quantity;
-	updateInfo();	
+	updatePlayerStatus();	
 }
