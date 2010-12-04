@@ -3,6 +3,7 @@ var drugFontSize = 12.5;//the size of the the font for the table that holds drug
 var numDrugs = 8;
 var numGuns = 5;
 
+//Player infor
 var days = 30;
 var coat = 0;
 var coatSize = 100;
@@ -13,9 +14,7 @@ var bank = 0;
 var health = 100;
 var currentLoc="Bronx";
 var interestRate = 12;
-/*
- * write some comments 
- */
+
 //drug pricing info
 var eMax = 75;
 var eMin = 10;
@@ -34,7 +33,6 @@ var speedMin = 220;
 var weedMax = 900;
 var weedMin = 350;
 
-
 //These will hold the current state of the game
 var newsFeed;
 var userName;
@@ -47,10 +45,12 @@ var currentScore;
 var coatInfo = [0,0,0,0,0,0,0,0];
 var currentPrice = [0,0,0,0,0,0,0,0];
 
+//guns, their name, price and quantity that the user owns
 var gunNames = ["9mil","glock","AK","shotty","38 special"];
 var gunPrices = [2000,3000,5000,10000,15000];
 var gunAmounts =[0,0,0,0,0];
 
+//will keep track of side item and if it's the first time user has been to game screen
 var itemName;
 var firstTime = 0;
 
