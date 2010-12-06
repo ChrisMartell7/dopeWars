@@ -52,7 +52,7 @@ $loginUrl = $facebook->getLoginUrl(
                 )
         );
  	echo "Loading please wait...";
-//	echo "<script type='text/javascript'>top.location.href = '" . $loginUrl. "';</script>";
+	echo "<script type='text/javascript'>top.location.href = '" . $loginUrl. "';</script>";
 }
 
 
@@ -104,24 +104,12 @@ Facebook Junk
 	}
 	finally{}
 	
-	var dialog = {
-    method: 'fbml.dialog',
-    display: 'dialog',
-    fbml: '<fb:header icon="false" decoration="add_border">Hello World!</fb:header><fb:profile-pic uid="5526183"></fb:profile-pic>',
-    width: 800,
-    height: 100
-  };
-  FB.ui(dialog, Log.info.bind('fbml.dialog callback'));
-
-
-
     </script>
 
 <!-- End Facebook junk -->
 
 </head>
 <body align="left" onload="init('<?php echo $name; ?>', '<?php echo $uid; ?>');">
-
 
 <script>
   var dialog = {
@@ -147,12 +135,25 @@ function getHighScore(){
 
 </script>
 
+
 <table width="725" height = "550">
 <td width ="150" >
 	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script>
 	<fb:like href="http://www.facebook.com/apps/application.php?id=110042632398450" layout="box_count" show_faces="true" width="150"></fb:like>
-	<br>
-	
+<!--
+<fb:serverFbml  width="150" height ="0">
+<script type="text/fbml">
+<fb:fbml>
+        <fb:share-button class="meta">
+        <meta name="title" content="Dope Wars"/>
+        <meta name="description" content="Come and sling some dope with me on Dope Wars!"/>
+	  <link rel="image_src" href="http://www.hyperarts.com/facebook/static-fbml-bible/_img/share-img-100x150.gif"/>
+       <link rel="target_url" href="http://www.facebook.com/dope_war"/>
+	  </fb:share-button>
+</fb:fbml>
+</script>
+</fb:serverFbml>
+-->	
 	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script><fb:login-button perms="email" show-faces="true" width="150" max-rows="2"></fb:login-button>
 	<br><br>
 
@@ -179,7 +180,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
         	<div id="gameButton"> <a class="squarebutton" href="javascript:loadGame()"><span>Game</span></a> </div>
                 <div id="highscoreButton"> <a class="squarebutton" href="javascript:loadHighscore()"><span>High Score</span></a></div>
                 <div id="inviteButton"> <a class="squarebutton" href="javascript:loadInvite()"><span>Invite</span></a> </div>
-                <div id="chatButton"> <a class="squarebutton" href="javascript:loadChat()"><span>Chat</span></a> </div>
+		<div id="chatButton"> <a class="squarebutton" href="javascript:loadChat()"><span>Chat</span></a> </div>
         	<div id="currentHighscore"></div>
 	</div>
 	<!-- This is the main window. It is the main focus -->
