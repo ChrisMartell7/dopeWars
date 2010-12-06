@@ -565,10 +565,14 @@ function buyStuff(item){
 	document.getElementById("drug"+item).value = "";
 	//check coat size
 	if(quantity+coat > coatSize){
+		alert("You don't have enough room in your coat to buy that");
+//		newsEvent("You don't have enough room in your coat to buy that<br>");
 		return;
 	}
 	//check money available
 	if((price*quantity) > cash){
+		alert("You don't have enough cash to buy that many drugs");
+//		newsEvent("You don't have enough cash to buy that many drugs<br>");
 		return;
 	}
 	//add to coat
@@ -591,6 +595,8 @@ function sellStuff(item){
 		
 	document.getElementById("drug"+item).value = "";
 	if(quantity > coatInfo[item]){
+		alert("You don't have that many drugs to sell");
+//		newsEvent("You don't have that many drugs to sell<br>");
 		return;
 	}
 	//check if item is not being sold in the city
