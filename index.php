@@ -43,6 +43,19 @@ if($token['name'] != ''){
 	$lName = $token['last_name'];
 }
 
+if(!$me && $token['name'] == ''){
+$loginUrl = $facebook->getLoginUrl(
+                array(
+                'canvas'    => 1,
+                'fbconnect' => 0,
+                'req_perms' => 'publish_stream'
+                )
+        );
+ 	echo "Loading please wait...";
+//	echo "<script type='text/javascript'>top.location.href = '" . $loginUrl. "';</script>";
+}
+
+
 //add user to visitor log
 $con = mysql_connect('127.0.0.1','chris2','eagle');
 if($con){
@@ -104,14 +117,6 @@ Facebook Junk
 
     </script>
 
-  <?php if (!$me && $token['name'] == ''): ?>
-    <div>
-Please Login: <a href="<?php echo $loginUrl; ?>">
-        <img src="http://static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif">
-
-    </div>
-
-    <?php else: ?>
 <!-- End Facebook junk -->
 
 </head>
@@ -143,18 +148,21 @@ function getHighScore(){
 </script>
 
 <table width="725" height = "550">
-<td width ="150" id="ad1">
+<td width ="150" >
+	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script>
+	<fb:like href="http://www.facebook.com/apps/application.php?id=110042632398450" layout="box_count" show_faces="true" width="150"></fb:like>
+	<br>
+	
+	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script><fb:login-button perms="email" show-faces="true" width="150" max-rows="2"></fb:login-button>
+	<br><br>
+
 <!--Ads -->
-<fb:like href="http://www.facebook.com/apps/application.php?id=110042632398450" layout="box_count" show_faces="true" width="150"></fb:like>
-<br>
-<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script><fb:login-button perms="email" show-faces="true" width="150" max-rows="2"></fb:login-button>
-<br><br>
 <script type="text/javascript"><!--
 google_ad_client = "ca-pub-0186828430337412";
 /* dopeWars */
 google_ad_slot = "2203235739";
 google_ad_width = 120;
-google_ad_height = 360;
+google_ad_height = 240;
 //-->
 </script>
 <script type="text/javascript"
@@ -164,6 +172,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br>
 
 </td>
+
 <td width="575" height="100%">
 	<div id="menu">
                 <div id="aboutButton"> <a class="squarebutton" href="javascript:loadAbout()"><span>About</span></a> </div>
@@ -174,16 +183,14 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
         	<div id="currentHighscore"></div>
 	</div>
 	<!-- This is the main window. It is the main focus -->
-	<div id="main">
-	</div>
-
-</td></table>
+	<div id="main">	</div>
+</td>
+</table>
 <br><br>
 <button type="button" onclick="updateDrugPrice(); getDrugPrice()">Update!</button>
 <button type="button" onclick="kill()">Kill!</button>
 <button type="button" onclick="graphStreamPublish()">Post</button>
 
-<?php endif ?>
 <br>
 <!-- Begin bottom ad -->
 <div id="ad2"><script type="text/javascript"><!--
@@ -203,4 +210,3 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </body>
 
 </html>
-

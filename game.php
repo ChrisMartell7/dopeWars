@@ -5,7 +5,7 @@
         </div>
 	<div id="playerStatus">
                 <div id="JetTo">
-                                Jet to: <select onchange="travel(this.value);">
+                                Jet to: <select id="loc" onchange="travel(this.value);">
                                         <option value="Bronx">Bronx</option>
                                         <option value="Ghetto">Ghetto</option>
                                         <option value="Queens">Queens</option>
@@ -28,7 +28,7 @@
 
         <!-- Row 1 will hold the news and side items -->
         <div id="row1">
-                <div id="news" align="left" style="overflow:scroll"></div>
+                <div id="news" align="left" style="overflow-y:scroll"></div>
                 <div id="side"></div>
         </div>
 	<div id="row2">
@@ -48,5 +48,3 @@
                 <div id="coatList"></div>
         </div><!-- end row2 -->
 </center>
-
-

@@ -455,15 +455,19 @@ function updateCoat(){
 }
 function repay(){
 	var amount = parseInt(document.getElementById("sharkVal").value);
+	if(amount>0){
 	cash -= amount;
 	debt -= amount;
 	updatePlayerStatus();
+	}
 }
 function borrow(){
 	var amount = parseInt(document.getElementById("sharkVal").value);
+	if(amount>0){
 	debt += amount;
 	cash += amount;
 	updatePlayerStatus();
+	}
 }
 function withdraw(){
 	var amount = parseInt(document.getElementById("bankVal").value);
@@ -484,7 +488,7 @@ function buyGun(i){
 		}
 		
 	}else{
-		if(gunAmounts[i]==1){
+		if(gunAmounts[i]>0){
 			gunAmounts[i]=0;
 			cash+=gunPrices[i];
 			guns--;
@@ -523,7 +527,9 @@ function deposit(){
 }
 function newsEvent(action){
 	newsFeed += action ;
-	document.getElementById("news").innerHTML = newsFeed;	
+	news = document.getElementById("news");
+	news.innerHTML = newsFeed;
+	news.scrollTop = news.scrollHeight;	
 }	
 function kill(){
 	days=1;
@@ -531,6 +537,7 @@ function kill(){
 }
 
 function travel(newLocation){
+	cops();
 	currentLoc = newLocation;
 	days -= 1;
 	debt = Math.floor(debt*(100+interestRate)/100);
@@ -544,7 +551,6 @@ function travel(newLocation){
 		getDrugPrice();
 		updatePlayerStatus();
 	}
-
 }
 
 function buyStuff(item){
@@ -596,4 +602,46 @@ function sellStuff(item){
 	//add to cash
 	cash += price*quantity;
 	updatePlayerStatus();	
+}
+
+function totalGuns(){
+        tot=0;
+        for(i=0;i<gunAmounts.length;i++){
+                tot+=gunAmounts[i]*gunPrices[i];
+        }
+
+        return tot;
+}
+function busted(){
+	if(coat>0){
+		cash=0;
+		coat=0;
+		for(i=0;i<coatItem.length;i++){
+			coatItem[i]=0;
+		}
+	}
+}
+var copsNext=0;
+function cops(){
+        if(copsNext){
+                if(window.confirm("You are being busted by the cops, do you want to fight?")){
+                        //chose to fight
+                        if(Math.floor(Math.random()*36000)>totalGuns()+1000){
+                                busted();
+				kill();
+                        }else{
+                                alert("You got away!");
+                        }
+                }else{
+                        busted();
+                }
+		copsNext=0;
+        }
+        show = Math.floor(Math.random()*11);
+        if(show>7){
+        newsEvent("The cops are following a trail!<br>");
+        }
+        if(show>9){//next time cops will come
+                copsNext=1;
+        }
 }
