@@ -43,6 +43,7 @@ if($token['name'] != ''){
 	$lName = $token['last_name'];
 }
 
+
 if(!$me && $token['name'] == ''){
 $loginUrl = $facebook->getLoginUrl(
                 array(
@@ -156,19 +157,9 @@ function getHighScore(){
 -->	
 	<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=110042632398450&amp;xfbml=1"></script><fb:login-button perms="email" show-faces="true" width="150" max-rows="2"></fb:login-button>
 	<br><br>
-
 <!--Ads -->
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-0186828430337412";
-/* dopeWars */
-google_ad_slot = "2203235739";
-google_ad_width = 120;
-google_ad_height = 240;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+<iframe src="sideAd.html" width="150" height="300" id="sideAd" frameborder=0>
+</iframe>
 <!-- End Ads -->
 <br>
 
@@ -194,18 +185,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 <br>
 <!-- Begin bottom ad -->
-<div id="ad2"><script type="text/javascript"><!--
-google_ad_client = "ca-pub-0186828430337412";
-/* dopeWars Bottom */
-google_ad_slot = "8312322855";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div>
+<iframe id="bottomAd" src="bottomAd.html" width="740" frameborder=0>
+</iframe>
 <!-- end bottom ad -->
 	</center>
 </body>

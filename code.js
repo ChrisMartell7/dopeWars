@@ -535,6 +535,12 @@ function kill(){
 	days=1;
 	travel("Bronx");
 }
+function reload(){
+	var f = document.getElementById('bottomAd');
+        f.src = f.src;
+	var i = document.getElementById('sideAd');
+        i.src = i.src;
+}
 
 function travel(newLocation){
 	cops();
