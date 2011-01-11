@@ -61,6 +61,7 @@ function loadAbout(){
         xmlhttp.send();
 	document.getElementById("main").style.border = "2px solid";
         document.getElementById("main").innerHTML = xmlhttp.responseText;
+	refreshAds();
 }
 
 
@@ -73,6 +74,7 @@ function loadGame(){
 	
 	//refresh all of the game info values
 	refreshGameValues();
+	refreshAds();
 }
 function loadHighscore(){
         xmlhttp = new XMLHttpRequest();
@@ -81,6 +83,7 @@ function loadHighscore(){
 	document.getElementById("main").style.border = "2px solid";
 	document.getElementById("currentHighscore").innerHTML = "<b>Your score: </b>"+currentScore;
         document.getElementById("main").innerHTML = xmlhttp.responseText;
+	refreshAds();
 }
 function loadInvite(){
 	xmlhttp = new XMLHttpRequest();
@@ -91,6 +94,7 @@ function loadInvite(){
 	document.getElementById("main").innerHTML = "<iframe id='myIframe' src='friends.php' width='100%' height='100%' scrolling=no  ></iframe>";
 //	document.body.onload();
 //	document.getElementById("main").reload();	
+	refreshAds();
 }
 
 
@@ -107,6 +111,7 @@ function resizeIframe(iframe) {
 
 function loadChat(){
 	window.open ("chatWindow.php","mywindow","status=1, width=425, height=550");		
+	refreshAds();
 }
 
 function getScore(){
@@ -136,28 +141,10 @@ function graphStreamPublish(){
        });
 }
 function refreshAds(){
-/*
-	
-
-	xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET","php/newAd.php",true);
-	xmlhttp.onreadystatechange=function(){
-  		if (xmlhttp.readyState==4 && xmlhttp.status==200){
- 			alert(xmlhttp.responseText);
-			document.getElementById("ad1").innerHTML=xmlhttp.responseText;
-    		}
-  	}
-	xmlhttp.send();
-	
-	xmlhttpb = new XMLHttpRequest();
-	xmlhttpb.open("GET","php/newAdbottom.php",true);
-	xmlhttpb.onreadystatechange=function(){
-  		if (xmlhttpb.readyState==4 && xmlhttpb.status==200){
- 			document.getElementById("ad2").innerHTML=xmlhttpb.responseText;
-    		}
-  	}
-	xmlhttpb.send();
-*/
+	var f = document.getElementById('bottomAd');
+        f.src = f.src;
+        var i = document.getElementById('sideAd');
+        i.src = i.src;
 }
 function refreshGameValues(){
 	//First welcome them either back or for the first time
@@ -440,7 +427,6 @@ function updatePlayerStatus(){
 	document.getElementById("CurrentLoc").innerHTML="Current City: " + currentLoc;
 	updateCoat();
 	getScore();
-	refreshAds();
 }
 
 
@@ -543,6 +529,7 @@ function reload(){
 }
 
 function travel(newLocation){
+	refreshAds();
 	cops();
 	currentLoc = newLocation;
 	days -= 1;
