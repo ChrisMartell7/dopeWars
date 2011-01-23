@@ -142,9 +142,13 @@ function graphStreamPublish(){
 }
 function refreshAds(){
 	var f = document.getElementById('bottomAd');
-        f.src = f.src;
         var i = document.getElementById('sideAd');
-        i.src = i.src;
+        if(i != null){
+		i.src = i.src;
+        }
+	if(f != null){
+		f.src = f.src;
+	}
 }
 function refreshGameValues(){
 	//First welcome them either back or for the first time
@@ -534,6 +538,12 @@ function travel(newLocation){
 	currentLoc = newLocation;
 	days -= 1;
 	debt = Math.floor(debt*(100+interestRate)/100);
+	if(health < 100){
+		health += 5;
+	}
+	if(health > 100){
+		health = 100;
+	}
 	if(days == 0){
 		loadHighscore();
 	}else{

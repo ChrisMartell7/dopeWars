@@ -37,12 +37,21 @@ for ($i=1;$i<=10;$i++){
 		$user = $_GET['name'];
 		
 		$query = 'insert into highscores values(null,"'.$user.'",'.$newScore.');';
-		$db->query($query);	
+		$db->query($query);
+		$nameArray = split(' ', $user);
+		if(count($nameArray) > 1){
+           		$user = $nameArray[0].' '.substr($nameArray[count($nameArray)-1], 0, 1);
+		}	
 		echo '<tr class="newScore"><td class="name">'.$user.'</td><td class="score">'.$newScore.'</td></tr>';
 		$i++;
 		$newScore=0;//so it doesn't print multiple times
 	}
-	echo '<tr><td class="name">'.$score['name'].'</td><td class="score">'.$score['score'].'</td></tr>';
+	$user = $score['name'];
+	$nameArray = split(' ', $user);
+	if(count($nameArray) > 1){
+           	$user = $nameArray[0].' '.substr($nameArray[count($nameArray)-1], 0, 1);
+	}
+	echo '<tr><td class="name">'.$user.'</td><td class="score">'.$score['score'].'</td></tr>';
 	
 }
 
@@ -51,7 +60,6 @@ for ($i=1;$i<=10;$i++){
 </table>
 <input type="submit" value="Play Again?"  onclick="initializeValues();loadGame();" />
 <?php
-
 $db->close();
 
 ?>
